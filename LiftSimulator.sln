@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lift.Simulator", "Lift.Simulator\Lift.Simulator.csproj", "{8A454005-E7EB-4F27-BBB4-35C232E03083}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lift.Simulator", "Lift.Simulator\Lift.Simulator.csproj", "{8A454005-E7EB-4F27-BBB4-35C232E03083}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lift.Console", "Lift.Console\Lift.Console.csproj", "{5DA06BDE-257F-462C-BF7E-825339278652}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lift.Data", "Lift.Data\Lift.Data.csproj", "{2A0868C2-5562-47D2-BC73-4D80BF139D52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{8A454005-E7EB-4F27-BBB4-35C232E03083}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A454005-E7EB-4F27-BBB4-35C232E03083}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A454005-E7EB-4F27-BBB4-35C232E03083}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DA06BDE-257F-462C-BF7E-825339278652}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DA06BDE-257F-462C-BF7E-825339278652}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DA06BDE-257F-462C-BF7E-825339278652}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DA06BDE-257F-462C-BF7E-825339278652}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A0868C2-5562-47D2-BC73-4D80BF139D52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A0868C2-5562-47D2-BC73-4D80BF139D52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A0868C2-5562-47D2-BC73-4D80BF139D52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A0868C2-5562-47D2-BC73-4D80BF139D52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
