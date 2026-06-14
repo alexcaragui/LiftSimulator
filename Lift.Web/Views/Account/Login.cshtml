@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Lift Simulator - Login</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body { background-color: #f0f2f5; }
+        .login-card {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            background: white;
+        }
+        .login-title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h2 class="login-title">🏗️ Lift Simulator</h2>
+        <h5 class="text-center text-muted mb-4">Autentificare</h5>
+
+        @if (ViewBag.Error != null)
+        {
+                <div class="alert alert-danger">@ViewBag.Error</div>
+        }
+
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" placeholder="admin" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Parola</label>
+                <input type="password" name="password" class="form-control" placeholder="••••••••" required />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,177 @@
+﻿@{
+    ViewData["Title"] = "Panou Control Lift";
+    string role = ViewBag.Role ?? "";
+    string liftState = ViewBag.LiftState ?? "Idle";
+    int currentLevel = ViewBag.CurrentLevel ?? 0;
+    bool[] lamps = ViewBag.Lamps ?? new bool[5];
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Lift Simulator</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body { background-color: #f0f2f5; }
+        .panel { background: white; border-radius: 10px; padding: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .lift-shaft { width: 80px; height: 300px; background: #ddd; border-radius: 5px; position: relative; margin: 0 auto; border: 2px solid #999; }
+        .lift-cabin { width: 60px; height: 50px; background: #4a90d9; border-radius: 4px; position: absolute; left: 8px; transition: bottom 0.8s ease; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+        .station-marker { position: absolute; right: -60px; font-size: 12px; color: #666; }
+        .lamp { width: 30px; height: 30px; border-radius: 50%; display: inline-block; margin: 5px; border: 2px solid #999; }
+        .lamp-on { background: #f0c040; box-shadow: 0 0 10px #f0c040; }
+        .lamp-off { background: #ccc; }
+        .state-badge { font-size: 1rem; padding: 8px 16px; }
+        .navbar-custom { background-color: #2c3e50; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark navbar-custom px-4 mb-4">
+    <span class="navbar-brand">🏗️ Lift Simulator</span>
+    <span class="text-white">@ViewBag.Username (@role)</span>
+    <a href="/Account/Logout" class="btn btn-outline-light btn-sm">Logout</a>
+</nav>
+
+<div class="container">
+    <div class="row">
+
+        <!-- Stare lift -->
+        <div class="col-md-4">
+            <div class="panel text-center">
+                <h5>Stare Lift</h5>
+                <span id="stateLabel" class="badge bg-primary state-badge mb-3">@liftState</span>
+
+                <!-- Vizualizare puț lift -->
+                <div class="position-relative" style="height:320px;">
+                    <div class="lift-shaft">
+                        <span class="station-marker" style="bottom: 230px;">Stația 4</span>
+                        <span class="station-marker" style="bottom: 155px;">Stația 3</span>
+                        <span class="station-marker" style="bottom: 80px;">Stația 2</span>
+                        <span class="station-marker" style="bottom: 5px;">Stația 1</span>
+                        <span class="station-marker" style="bottom: -20px; color:#333;">Bază</span>
+                        <div class="lift-cabin" id="liftCabin" style="bottom: @(currentLevel * 62)px;">
+                            E@(currentLevel)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lampi -->
+                <div class="mt-3">
+                    <small class="text-muted">Lămpi P1-P4</small><br />
+                    <span class="lamp @(lamps[1] ? "lamp-on" : "lamp-off")" title="P1"></span>
+                    <span class="lamp @(lamps[2] ? "lamp-on" : "lamp-off")" title="P2"></span>
+                    <span class="lamp @(lamps[3] ? "lamp-on" : "lamp-off")" title="P3"></span>
+                    <span class="lamp @(lamps[4] ? "lamp-on" : "lamp-off")" title="P4"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Butoane control -->
+        <div class="col-md-4">
+            <div class="panel">
+                <h5>Control</h5>
+                <p class="text-muted small">Selectează stația de destinație:</p>
+
+                <form method="post" action="/Home/SelectLevel">
+                    <input type="hidden" name="level" value="4" />
+                    <button class="btn btn-outline-primary w-100 mb-2">⬆ Stația 4 (S4)</button>
+                </form>
+                <form method="post" action="/Home/SelectLevel">
+                    <input type="hidden" name="level" value="3" />
+                    <button class="btn btn-outline-primary w-100 mb-2">⬆ Stația 3 (S3)</button>
+                </form>
+                <form method="post" action="/Home/SelectLevel">
+                    <input type="hidden" name="level" value="2" />
+                    <button class="btn btn-outline-primary w-100 mb-2">⬆ Stația 2 (S2)</button>
+                </form>
+                <form method="post" action="/Home/SelectLevel">
+                    <input type="hidden" name="level" value="1" />
+                    <button class="btn btn-outline-primary w-100 mb-2">⬆ Stația 1 (S1)</button>
+                </form>
+
+                <hr />
+
+                <form method="post" action="/Home/MoveToBase">
+                    <button class="btn btn-secondary w-100 mb-2">⬇ Coboară la Bază (S5)</button>
+                </form>
+
+                    @if (role == "Admin")
+                    {
+                        <hr />
+                        <form method="post" action="/Home/EmergencyStop">
+                            <button class="btn btn-danger w-100 mb-2">🛑 Oprire Urgență (S0)</button>
+                        </form>
+                        <form method="post" action="/Home/RestartProcess">
+                            <button class="btn btn-success w-100">▶ Repornire Proces</button>
+                        </form>
+                    }
+            </div>
+        </div>
+
+        <!-- Evenimente recente -->
+        <div class="col-md-4">
+            <div class="panel">
+                <h5>Evenimente Recente</h5>
+                <div id="eventsLog" style="height:400px; overflow-y:auto; font-size:12px;">
+                    <p class="text-muted">Se încarcă...</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+        @if (role == "Admin")
+        {
+        <div class="row">
+            <div class="col-12">
+                <div class="panel">
+                    <h5>Navigare Admin</h5>
+                    <a href="/Users/Index" class="btn btn-outline-secondary me-2">👥 Gestionare Utilizatori</a>
+                    <a href="/Report/Index" class="btn btn-outline-secondary">📊 Raport Întreruperi</a>
+                </div>
+            </div>
+        </div>
+        }
+</div>
+
+<script>
+    // Refresh automat la fiecare 2 secunde
+    function refreshStatus() {
+        fetch('/Home/GetStatus')
+            .then(r => r.json())
+            .then(data => {
+                // Actualizam starea
+                document.getElementById('stateLabel').textContent = data.state;
+
+                // Mutam cabina
+                const cabin = document.getElementById('liftCabin');
+                cabin.style.bottom = (data.currentLevel * 62) + 'px';
+                cabin.textContent = 'E' + data.currentLevel;
+
+                // Culoare badge dupa stare
+                const badge = document.getElementById('stateLabel');
+                badge.className = 'badge state-badge mb-3 ' + (
+                    data.state === 'EmergencyStop' ? 'bg-danger' :
+                    data.state === 'Idle' ? 'bg-success' :
+                    data.state === 'AtStation' ? 'bg-warning' : 'bg-primary'
+                );
+            });
+
+        // Actualizam evenimente
+        fetch('/Home/GetEvents')
+            .then(r => r.json())
+            .then(events => {
+                const log = document.getElementById('eventsLog');
+                log.innerHTML = events.map(e =>
+                    `<div class="border-bottom py-1"><small class="text-muted">${e.timestamp}</small><br/>${e.message}</div>`
+                ).join('');
+            });
+    }
+
+    setInterval(refreshStatus, 2000);
+    refreshStatus();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+﻿@model Lift.Data.Models.User
+@{
+    ViewData["Title"] = "Editează Utilizator";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+<nav class="navbar navbar-dark px-4 mb-4" style="background-color:#2c3e50;">
+    <span class="navbar-brand">🏗️ Lift Simulator</span>
+    <a href="/Users" class="btn btn-outline-light btn-sm">← Înapoi</a>
+</nav>
+<div class="container" style="max-width:500px;">
+    <h4 class="mb-4">Editează: @Model.Username</h4>
+    <div class="card p-4">
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" value="@Model.Username" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Parolă nouă (lasă gol dacă nu schimbi)</label>
+                <input type="password" name="password" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Rol</label>
+                <select name="role" class="form-select">
+                        @if (Model.Role == "Operator")
+                        {
+                            <option value="Operator" selected>Operator</option>
+                            <option value="Admin">Admin</option>
+                        }
+                        else
+                        {
+                            <option value="Operator">Operator</option>
+                            <option value="Admin" selected>Admin</option>
+                        }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-warning w-100">Salvează</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

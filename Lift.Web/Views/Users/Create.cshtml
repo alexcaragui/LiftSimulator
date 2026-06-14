@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Utilizator Nou";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+<nav class="navbar navbar-dark px-4 mb-4" style="background-color:#2c3e50;">
+    <span class="navbar-brand">🏗️ Lift Simulator</span>
+    <a href="/Users" class="btn btn-outline-light btn-sm">← Înapoi</a>
+</nav>
+<div class="container" style="max-width:500px;">
+    <h4 class="mb-4">+ Utilizator Nou</h4>
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Error</div>
+        }
+    <div class="card p-4">
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Parolă</label>
+                <input type="password" name="password" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Rol</label>
+                <select name="role" class="form-select">
+                    <option value="Operator">Operator</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Creează</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

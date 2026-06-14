@@ -1,0 +1,55 @@
+﻿@model List<Lift.Data.Models.User>
+@{
+    ViewData["Title"] = "Utilizatori";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+<nav class="navbar navbar-dark px-4 mb-4" style="background-color:#2c3e50;">
+    <span class="navbar-brand">🏗️ Lift Simulator</span>
+    <a href="/Home/Index" class="btn btn-outline-light btn-sm">← Înapoi</a>
+</nav>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>👥 Gestionare Utilizatori</h4>
+        <a href="/Users/Create" class="btn btn-primary">+ Utilizator Nou</a>
+    </div>
+
+    <table class="table table-bordered table-hover bg-white">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Rol</th>
+                <th>Creat la</th>
+                <th>Acțiuni</th>
+            </tr>
+        </thead>
+        <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.Id</td>
+                        <td>@user.Username</td>
+                        <td><span class="badge @(user.Role == "Admin" ? "bg-danger" : "bg-secondary")">@user.Role</span></td>
+                        <td>@user.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            <a href="/Users/Edit/@user.Id" class="btn btn-sm btn-warning">Editează</a>
+                            <form method="post" action="/Users/Delete/@user.Id" style="display:inline"
+                                  onsubmit="return confirm('Sigur ștergi?')">
+                                <button class="btn btn-sm btn-danger">Șterge</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
